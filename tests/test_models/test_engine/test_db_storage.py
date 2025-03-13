@@ -88,17 +88,14 @@ class TestDBStorage(unittest.TestCase):
         """Test that save properly saves objects to file.json"""
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_get(self):
-        """Test the return value of the get method"""
+    def test_storage_get_count(self):
+        """Test the return value of the get and count method"""
         state = State()
         storage = DBStorage()
         storage.new(state)
         storage.save()
         self.assertEqual(state.id, storage.get(State, state.id).id)
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_count(self):
-        """Test the return value of the get method"""
         storage = DBStorage()
         current = storage.count(State)
         state = State()
@@ -106,3 +103,22 @@ class TestDBStorage(unittest.TestCase):
         storage.save()
         self.assertEqual(current + 1, storage.count(State))
 
+
+    # @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    # def test_get(self):
+    #     """Test the return value of the get method"""
+    #     state = State()
+    #     storage = DBStorage()
+    #     storage.new(state)
+    #     storage.save()
+    #     self.assertEqual(state.id, storage.get(State, state.id).id)
+
+    # @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    # def test_count(self):
+    #     """Test the return value of the get method"""
+    #     storage = DBStorage()
+    #     current = storage.count(State)
+    #     state = State()
+    #     storage.new(state)
+    #     storage.save()
+    #     self.assertEqual(current + 1, storage.count(State))
