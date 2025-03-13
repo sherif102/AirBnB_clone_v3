@@ -102,7 +102,6 @@ class TestDBStorage(unittest.TestCase):
         storage.save()
         self.assertEqual(current + 1, storage.count(State))
 
-
     # @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     # def test_get(self):
     #     """Test the return value of the get method"""

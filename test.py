@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 from models.state import State
-from models.engine.file_storage import FileStorage
+from models.engine.db_storage import DBStorage
+from models import storage
 
-storage = FileStorage()
 state = State()
 
 # print(State)
