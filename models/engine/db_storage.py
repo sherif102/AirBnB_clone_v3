@@ -78,7 +78,7 @@ class DBStorage:
     def get(self, cls, id):
         """retrieve the values of the object provided"""
         if cls and cls in classes:
-            for one_class in self.all(cls).values():
+            for one_class in self.all(classes[cls]).values():
                 if one_class.id == id:
                     return one_class
         else:
@@ -87,6 +87,6 @@ class DBStorage:
     def count(self, cls=None):
         """retrieve the number of provided object in the storage"""
         if cls and cls in classes:
-            return len(self.all(cls))
+            return len(self.all(classes[cls]))
         else:
             return len(self.all())
