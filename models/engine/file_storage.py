@@ -14,6 +14,7 @@ from models.user import User
 
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
+matches = list(classes.keys())
 
 
 class FileStorage:
@@ -71,7 +72,7 @@ class FileStorage:
 
     def get(self, cls, id):
         """retrieve the values of the object provided"""
-        if cls and cls in classes:
+        if cls and cls in matches:
             for one_class in self.all(classes[cls]).values():
                 if one_class.id == id:
                     return one_class
@@ -80,7 +81,7 @@ class FileStorage:
 
     def count(self, cls=None):
         """retrieve the number of provided object in the storage"""
-        if cls and cls in classes:
+        if cls and cls in matches:
             return len(self.all(classes[cls]))
         else:
             return len(self.all())
