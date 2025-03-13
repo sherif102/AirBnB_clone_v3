@@ -11,4 +11,4 @@ state = State()
 print(storage.all())
 print()
 
-print(storage.get(State, 'd8a745d6-72b9-45b0-a3a1-67f0d53c987a'))
+print(storage.count(State))
