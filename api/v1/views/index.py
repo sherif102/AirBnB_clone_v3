@@ -13,11 +13,13 @@ from flask import jsonify
 
 @app_views.route('/status')
 def status():
+    """fetch the response header for OK"""
     return jsonify({"status": "OK"})
 
 
 @app_views.route('/stats')
 def stats():
+    """fetches the stats of the data"""
     classes = {
         'amenities': Amenity,
         'cities': City,
