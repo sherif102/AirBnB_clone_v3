@@ -10,6 +10,7 @@ from os import getenv
 app = Flask(__name__)
 app.register_blueprint(app_views)
 
+
 @app.teardown_appcontext
 def teardown(exception=None):
     """cleanup connection after task done"""
@@ -17,4 +18,7 @@ def teardown(exception=None):
 
 
 if __name__ == "__main__":
-    app.run(host=getenv('HBNB_API_HOST', '0.0.0.0'), port=getenv('HBNB_API_PORT', '5000'), threaded=True, debug=True)
+    app.run(
+        host=getenv('HBNB_API_HOST', '0.0.0.0'),
+        port=getenv('HBNB_API_PORT', '5000'),
+        threaded=True)
