@@ -28,10 +28,6 @@ def stats():
         'states': State,
         'users': User
     }
-    records = {}
     for key, value in classes.items():
-        try:
-            records[key] = storage.count(value)
-        except Exception:
-            records[key] = 0
-    return jsonify(records)
+        classes[key] = storage.count(value)
+    return jsonify(classes)
