@@ -30,6 +30,6 @@ def stats():
     for key, value in classes.items():
         try:
             records[key] = storage.count(value)
-        except:
-            records[key] = 0
+        except Exception:
+            pass
     return jsonify(records)
