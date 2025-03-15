@@ -53,3 +53,11 @@ Create an endpoint that retrieves the number of each objects by type:
     In api/v1/views/index.py
     Route: /api/v1/stats
     You must use the newly added count() method from storage
+
+**5-Not found**
+Designers are really creative when they have to design a “404 page”, a “Not found”… 34 brilliantly designed 404 error pages
+
+Today it’s different, because you won’t use HTML and CSS, but JSON!
+
+In api/v1/app.py, create a handler for 404 errors that returns a JSON-formatted 404 status code response. The content should be: "error": "Not found"
+
