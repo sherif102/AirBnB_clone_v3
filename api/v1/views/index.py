@@ -19,12 +19,12 @@ def status():
 @app_views.route('/stats')
 def stats():
     classes = {
-        'amenities': Amenity,
-        'cities': City,
-        'places': Place,
-        'reviews': Review,
-        'states': State,
-        'users': User
+        'amenities': 'Amenity',
+        'cities': 'City',
+        'places': 'Place',
+        'reviews': 'Review',
+        'states': 'State',
+        'users': 'User'
     }
     records = {}
     for key, value in classes.items():
