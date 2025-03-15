@@ -20,7 +20,7 @@ def teardown(exception=None):
 @app.errorhandler(404)
 def error_404_not_found(error):
     """return customized 404 error message"""
-    return jsonify({"error": "Not found"})
+    return jsonify({"error": "Not found"}), 404
 
 
 if __name__ == "__main__":
