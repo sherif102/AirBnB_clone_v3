@@ -28,5 +28,8 @@ def stats():
     }
     records = {}
     for key, value in classes.items():
-        records[key] = storage.count(value)
+        try:
+            records[key] = storage.count(value)
+        except:
+            records[key] = 0
     return jsonify(records)
