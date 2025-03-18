@@ -7,6 +7,7 @@ from flask import jsonify, request, abort
 
 
 @app_views.route('/states')
+@app_views.route('/states/')
 def get_states():
     """retrieve all states"""
     all_states = []
