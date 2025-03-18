@@ -90,8 +90,8 @@ def put_user(user_id):
 
 def check_input(data_dict):
     """checks the input for correctness"""
-    check_keys = ['name']
+    check_keys = ['email', 'password']
     for key in check_keys:
         if key not in list(data_dict.keys()):
-            return jsonify({'error': 'Missing name'}), 400
+            return jsonify({'error': f'Missing {key}'}), 400
     return True
