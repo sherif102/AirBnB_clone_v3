@@ -11,12 +11,14 @@ from flask import jsonify, request
 def get_cities_of_a_state(state_id):
     """retrieve all cities in a state"""
     state = storage.get(State, state_id)
-    if state.cities:
-        all_cities = []
-        for city in state.cities:
-            all_cities.append(city.to_dict())
-        return jsonify(all_cities)
-    return jsonify({"error": "Not found"}), 404
+    try:
+        if state.cities:
+            all_cities = []
+            for city in state.cities:
+                all_cities.append(city.to_dict())
+            return jsonify(all_cities)
+    except Exception:
+        return jsonify({"error": "Not found"}), 404
 
 
 @app_views.route('/cities/<city_id>', strict_slashes=False)
@@ -33,6 +35,15 @@ def delete_city(city_id):
     """delete a state"""
     city = storage.get(City, city_id)
     if city:
+        if city.places:
+            for place in city.places:
+                if place.reviews:
+                    for review in place.reviews:
+                        storage.delete(review)
+                if place.amenities:
+                    for amenity in place.amenities:
+                        storage.delete(amenity)
+                storage.delete(place)
         storage.delete(city)
         storage.save()
         return jsonify({}), 200
@@ -61,7 +72,7 @@ def post_city(state_id):
 
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
-def put_state(city_id):
+def put_city(city_id):
     """update a state"""
     city = storage.get(City, city_id)
     if not city:
