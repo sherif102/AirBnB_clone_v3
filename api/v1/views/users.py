@@ -59,8 +59,10 @@ def post_user():
     except Exception:
         return jsonify({'error': 'Not a JSON'}), 400
 
-    if (check_input(input_data)) is not True:
-        return (check_input(input_data))
+    if 'email' not in list(input_data.keys()):
+        return jsonify({'error': 'Missing email'}), 400
+    if 'password' not in list(input_data.keys()):
+        return jsonify({'error': 'Missing password'}), 400
 
     new_user = User(**input_data)
     storage.new(new_user)
