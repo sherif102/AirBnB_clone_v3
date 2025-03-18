@@ -11,14 +11,15 @@ from flask import jsonify, request
 def get_cities_of_a_state(state_id):
     """retrieve all cities in a state"""
     state = storage.get(State, state_id)
-    try:
-        if state.cities:
-            all_cities = []
-            for city in state.cities:
-                all_cities.append(city.to_dict())
-            return jsonify(all_cities)
-    except Exception:
+    if not state:
         return jsonify({"error": "Not found"}), 404
+    if len(state.cities) > 0:
+        all_cities = []
+        for city in state.cities:
+            all_cities.append(city.to_dict())
+        return jsonify(all_cities)
+    else:
+        return jsonify([])
 
 
 @app_views.route('/cities/<city_id>', strict_slashes=False)
