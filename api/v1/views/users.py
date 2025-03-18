@@ -92,6 +92,8 @@ def check_input(data_dict):
     """checks the input for correctness"""
     check_keys = ['email', 'password']
     for key in check_keys:
-        if key not in list(data_dict.keys()):
-            return {'error': f"Missing {key}"}, 400
+        if 'email' not in list(data_dict.keys()):
+            return jsonify({'error': 'Missing email'}), 400
+        if 'password' not in list(data_dict.keys()):
+            return jsonify({'error': 'Missing password'}), 400
     return True
