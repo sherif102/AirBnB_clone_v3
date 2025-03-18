@@ -46,6 +46,7 @@ def delete_state(state_id):
 
 
 @app_views.route('/states', methods=['POST'])
+@app_views.route('/states/', methods=['POST'])
 def post_state():
     """insert a state"""
     try:
