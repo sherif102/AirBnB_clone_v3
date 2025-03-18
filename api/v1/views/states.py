@@ -6,8 +6,7 @@ from models.state import State
 from flask import jsonify, request, abort
 
 
-@app_views.route('/states')
-@app_views.route('/states/')
+@app_views.route('/states', strict_slashes=False)
 def get_states():
     """retrieve all states"""
     all_states = []
@@ -17,7 +16,7 @@ def get_states():
     return jsonify(all_states)
 
 
-@app_views.route('/states/<state_id>')
+@app_views.route('/states/<state_id>', strict_slashes=False)
 def get_state_with_id(state_id):
     """retrieve a state"""
     states = storage.all(State)
@@ -27,7 +26,7 @@ def get_state_with_id(state_id):
     return jsonify({"error": "Not found"}), 404
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'])
+@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
 def delete_state(state_id):
     """delete a state"""
     states = storage.all(State)
@@ -45,8 +44,7 @@ def delete_state(state_id):
     return jsonify({"error": "Not found"}), 404
 
 
-@app_views.route('/states', methods=['POST'])
-@app_views.route('/states/', methods=['POST'])
+@app_views.route('/states', methods=['POST'], strict_slashes=False)
 def post_state():
     """insert a state"""
     try:
@@ -63,7 +61,7 @@ def post_state():
     return jsonify(new_state.to_dict()), 201
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'])
+@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def put_state(state_id):
     """update a state"""
     all_states = storage.all(State)
