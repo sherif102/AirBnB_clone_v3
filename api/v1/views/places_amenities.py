@@ -28,9 +28,12 @@ def get_amenity_by_place(place_id):
                  methods=['DELETE'], strict_slashes=False)
 def delete_place_amenity(place_id, amenity_id):
     """delete a amenity"""
-    place = storage.get(Place, place_id)
-    amenity = storage.get(Amenity, amenity_id)
-    amenity_present = amenity in place.amenities
+    try:
+        place = storage.get(Place, place_id)
+        amenity = storage.get(Amenity, amenity_id)
+        amenity_present = amenity in place.amenities
+    except Exception:
+        return jsonify({"error": "Not found"}), 404
     if place and amenity and amenity_present:
         storage.delete(amenity)
         storage.save()
