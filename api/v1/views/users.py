@@ -55,8 +55,9 @@ def delete_user(user_id):
 def post_user():
     """insert a user"""
     try:
+        if not request.is_json:
+            raise Exception
         input_data = request.get_json()
-        request.is_json
     except Exception:
         return jsonify({'error': 'Not a JSON'}), 400
 
