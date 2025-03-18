@@ -71,7 +71,8 @@ def post_place(city_id):
     if "name" not in input_data:
         return jsonify({'error': 'Missing name'}), 400
 
-    if input_data["user_id"] != storage.get(User, input_data["user_id"]).id:
+    user = storage.get(User, input_data["user_id"])
+    if not user:
         return jsonify({"error": "Not found"}), 404
 
     new_place = Place(city_id=city_id, **input_data)
