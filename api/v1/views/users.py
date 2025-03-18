@@ -56,6 +56,7 @@ def post_user():
     """insert a user"""
     try:
         input_data = request.get_json()
+        jsonify(input_data)
     except Exception:
         return jsonify({'error': 'Not a JSON'}), 400
 
