@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""fetches all default RESTFul API actions
-    API for the users registered
-"""
+# """fetches all default RESTFul API actions"""
 from api.v1.views import app_views
 from api.v1.views import storage
 from models.city import City

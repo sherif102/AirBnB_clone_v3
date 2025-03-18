@@ -1,14 +1,12 @@
 #!/usr/bin/python3
-from models.state import State
-from models.engine.db_storage import DBStorage
-from models import storage
+"""Testing documentation of a module
+"""
+from importlib import import_module
+import sys
 
-state = State()
+m_imported = import_module(sys.argv[1])
 
-# print(State)
-# print(state)
-# print(state.id)
-print(storage.all())
-print()
-
-print(storage.count(State))
+if m_imported.__doc__ is None:
+    print("No module documentation", end="")
+else:
+    print("OK", end="")
