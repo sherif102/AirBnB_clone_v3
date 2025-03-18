@@ -90,12 +90,12 @@ def put_user(user_id):
     # return jsonify({"error": "Not found"}), 404
 
 
-def check_input(data_dict):
-    """checks the input for correctness"""
-    check_keys = ['email', 'password']
-    for key in check_keys:
-        if key not in list(data_dict.keys()):
-            text = f'{key}'
-            error = {"error": text}
-            return jsonify(error), 400
-    return True
+# def check_input(data_dict):
+#     """checks the input for correctness"""
+#     check_keys = ['email', 'password']
+#     for key in check_keys:
+#         if key not in list(data_dict.keys()):
+#             text = f'{key}'
+#             error = {"error": text}
+#             return jsonify(error), 400
+#     return True
