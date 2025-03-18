@@ -46,9 +46,9 @@ def delete_place(place_id):
             for amenity in place.amenities:
                 storage.delete(amenity)
                 storage.delete(place)
-    storage.delete(place)
-    storage.save()
-    return jsonify({}), 200
+        storage.delete(place)
+        storage.save()
+        return jsonify({}), 200
     return jsonify({"error": "Not found"}), 404
 
 
@@ -71,7 +71,7 @@ def post_place(city_id):
     if "name" not in input_data:
         return jsonify({'error': 'Missing name'}), 400
 
-    if input_data["user_id"] != storage.get(User, input_data["user_id"]):
+    if input_data["user_id"] != storage.get(User, input_data["user_id"]).id:
         return jsonify({"error": "Not found"}), 404
 
     new_place = Place(city_id=city_id, **input_data)
