@@ -2,6 +2,7 @@
 """fetches all default RESTFul API actions"""
 from api.v1.views import app_views
 from api.v1.views import storage
+from models.amenity import Amenity
 from models.city import City
 from models.state import State
 from models.place import Place
@@ -81,6 +82,61 @@ def post_place(city_id):
     return jsonify(new_place.to_dict()), 201
 
 
+@app_views.route('/places_search', methods=['POST'], strict_slashes=False)
+def post_place_search(city_id):
+    """insert a place"""
+    item_class = {"states": State, "cities": City}
+    places_list = []
+
+    try:
+        if not request.is_json:
+            raise Exception
+        input_data = request.get_json()
+    except Exception:
+        return jsonify({'error': 'Not a JSON'}), 400
+
+    if "amenities" in input_data:
+        amenity_lists = []
+        for amenity in input_data["amenities"]:
+            amenit = storage.get(Amenity, amenity)
+            if amenit:
+                amenity_lists.append(amenit)
+
+    try:
+        for key, values in input_data.items():
+            for value in values:
+                try:
+                    obj = storage.get(item_class[key], value)
+                    if obj.cities:
+                        for places in obj.cities:
+                            for place in places:
+                                if amenity_lists:
+                                    if set(amenity_lists) <= set(
+                                            place.amenities):
+                                        places_list.append(place.to_dict())
+                                else:
+                                    places_list.append(place.to_dict())
+                    if obj.places:
+                        for place in obj.places:
+                            if amenity_lists:
+                                if set(amenity_lists) <= set(place.amenities):
+                                    places_list.append(place.to_dict())
+                            else:
+                                places_list.append(place.to_dict())
+                except Exception:
+                    pass
+    except Exception:
+        places = storage.all(Place)
+        for place in places.values():
+            if amenity_lists:
+                if set(amenity_lists) <= set(place.amenities):
+                    places_list.append(place.to_dict())
+            else:
+                places_list.append(place.to_dict())
+
+    return jsonify(places_list), 200
+
+
 @app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
 def put_place(place_id):
     """update a place"""
@@ -103,10 +159,10 @@ def put_place(place_id):
     # return jsonify({"error": "Not found"}), 404
 
 
-# def check_input(data_dict):
-#     """checks the input for correctness"""
-#     check_keys = ['name']
-#     for key in check_keys:
-#         if key not in list(data_dict.keys()):
-#             return jsonify({'error': 'Missing name'}), 400
-#     return True
+@app_views.route('/all', strict_slashes=False)
+def all_objects():
+    response = []
+    result = storage.all()
+    for x in result.values():
+        response.append(x.to_dict())
+    return jsonify(response), 200
