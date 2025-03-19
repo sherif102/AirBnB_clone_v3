@@ -117,15 +117,16 @@ def post_place_search():
                             places = city.places
                             for place in places:
                                 if len(amenity_lists) > 0:
-                                    if set(amenity_lists) <= set(
-                                            place.amenities):
+                                    if set(amenity_lists).issubset(set(
+                                            place.amenities)):
                                         places_list.append(place.to_dict())
                                 else:
                                     places_list.append(place.to_dict())
                     elif obj.places:
                         for place in obj.places:
                             if len(amenity_lists) > 0:
-                                if set(amenity_lists) <= set(place.amenities):
+                                if set(amenity_lists).issubset(set(
+                                        place.amenities)):
                                     places_list.append(place.to_dict())
                             else:
                                 places_list.append(place.to_dict())
