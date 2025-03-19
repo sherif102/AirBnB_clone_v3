@@ -122,7 +122,7 @@ def post_place_search():
                                         places_list.append(place.to_dict())
                                 else:
                                     places_list.append(place.to_dict())
-                    if obj.places:
+                    elif obj.places:
                         for place in obj.places:
                             if len(amenity_lists) > 0:
                                 if set(amenity_lists) <= set(place.amenities):
