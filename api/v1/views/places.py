@@ -83,10 +83,11 @@ def post_place(city_id):
 
 
 @app_views.route('/places_search', methods=['POST'], strict_slashes=False)
-def post_place_search(city_id):
-    """insert a place"""
+def post_place_search():
+    """search for places"""
     item_class = {"states": State, "cities": City}
     places_list = []
+    amenity_lists = []
 
     try:
         if not request.is_json:
@@ -96,21 +97,26 @@ def post_place_search(city_id):
         return jsonify({'error': 'Not a JSON'}), 400
 
     if "amenities" in input_data:
-        amenity_lists = []
         for amenity in input_data["amenities"]:
             amenit = storage.get(Amenity, amenity)
             if amenit:
                 amenity_lists.append(amenit)
 
     try:
+        if len(input_data) < 1:
+            raise Exception
         for key, values in input_data.items():
+            if len(values) < 1:
+                raise Exception
             for value in values:
                 try:
                     obj = storage.get(item_class[key], value)
                     if obj.cities:
-                        for places in obj.cities:
+                        cities = obj.cities
+                        for city in cities:
+                            places = city.places
                             for place in places:
-                                if amenity_lists:
+                                if len(amenity_lists) > 0:
                                     if set(amenity_lists) <= set(
                                             place.amenities):
                                         places_list.append(place.to_dict())
@@ -118,7 +124,7 @@ def post_place_search(city_id):
                                     places_list.append(place.to_dict())
                     if obj.places:
                         for place in obj.places:
-                            if amenity_lists:
+                            if len(amenity_lists) > 0:
                                 if set(amenity_lists) <= set(place.amenities):
                                     places_list.append(place.to_dict())
                             else:
@@ -128,13 +134,13 @@ def post_place_search(city_id):
     except Exception:
         places = storage.all(Place)
         for place in places.values():
-            if amenity_lists:
+            if len(amenity_lists) > 0:
                 if set(amenity_lists) <= set(place.amenities):
                     places_list.append(place.to_dict())
             else:
                 places_list.append(place.to_dict())
 
-    return jsonify(places_list), 200
+    return jsonify(places_list)
 
 
 @app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
