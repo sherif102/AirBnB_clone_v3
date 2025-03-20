@@ -100,7 +100,7 @@ def post_place_search():
         for amenity in input_data["amenities"]:
             amenit = storage.get(Amenity, amenity)
             if amenit.__class__.__name__ == "Amenity":
-                amenity_lists.append(amenit.id)
+                amenity_lists.append(amenit)
 
     try:
         if not input_data:
@@ -115,29 +115,22 @@ def post_place_search():
                     for city in cities:
                         places = city.places
                         for place in places:
-                            # if len(amenity_lists) > 0:
-                            #     if set(amenity_lists).issubset(set(
-                            #             place.amenities)):
-                            #         places_list.append(place.to_dict())
-                            # else:
                             places_list.append(place.to_dict())
                 elif obj.__class__.__name__ == "City":
                     places = obj.places
                     for place in places:
-                        # if len(amenity_lists) > 0:
-                        #     if set(amenity_lists).issubset(set(
-                        #             place.amenities)):
-                        #         places_list.append(place.to_dict())
-                        # else:
                         places_list.append(place.to_dict())
     except Exception:
         places = storage.all(Place)
         for place in places.values():
-            # if len(amenity_lists) > 0:
-            #     if set(amenity_lists) <= set(place.amenities):
-            #         places_list.append(place.to_dict())
-            # else:
             places_list.append(place.to_dict())
+
+    if len(amenity_lists) > 0:
+        filter_places = []
+        for place in places_list:
+            if set(amenity_lists).issubset(set(place.amenities)):
+                filter_places.append(place.to_dict())
+        return jsonify(filter_places)
 
     return jsonify(places_list)
 
