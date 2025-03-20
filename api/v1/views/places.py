@@ -99,7 +99,7 @@ def post_place_search():
     if "amenities" in input_data:
         for amenity in input_data["amenities"]:
             amenit = storage.get(Amenity, amenity)
-            if amenit:
+            if amenit.__class__.__name__ == "Amenity":
                 amenity_lists.append(amenit)
 
     try:
