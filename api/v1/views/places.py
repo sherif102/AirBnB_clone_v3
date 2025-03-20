@@ -100,7 +100,7 @@ def post_place_search():
         for amenity in input_data["amenities"]:
             amenit = storage.get(Amenity, amenity)
             if amenit.__class__.__name__ == "Amenity":
-                amenity_lists.append(amenit)
+                amenity_lists.append(amenit.id)
 
     try:
         if not input_data:
@@ -125,10 +125,11 @@ def post_place_search():
         for place in places.values():
             places_list.append(place.to_dict())
 
-    if len(amenity_lists) > 0:
+    if amenity_lists:
         filter_places = []
         for place in places_list:
-            if set(amenity_lists).issubset(set(place.amenities)):
+            amenities = [amenity.id for amenity in place.amenities]
+            if set(amenity_lists).issubset(set(amenities)):
                 filter_places.append(place.to_dict())
         return jsonify(filter_places)
 
