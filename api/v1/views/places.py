@@ -103,35 +103,33 @@ def post_place_search():
                 amenity_lists.append(amenit)
 
     try:
-        if len(input_data) < 1:
+        if not input_data:
             raise Exception
         for key, values in input_data.items():
             if len(values) < 1:
                 raise Exception
             for value in values:
-                try:
-                    obj = storage.get(item_class[key], value)
-                    if obj.cities:
-                        cities = obj.cities
-                        for city in cities:
-                            places = city.places
-                            for place in places:
-                                if len(amenity_lists) > 0:
-                                    if set(amenity_lists).issubset(set(
-                                            place.amenities)):
-                                        places_list.append(place.to_dict())
-                                else:
-                                    places_list.append(place.to_dict())
-                    elif obj.places:
-                        for place in obj.places:
+                obj = storage.get(item_class[key], value)
+                if obj.cities:
+                    cities = obj.cities
+                    for city in cities:
+                        places = city.places
+                        for place in places:
                             if len(amenity_lists) > 0:
                                 if set(amenity_lists).issubset(set(
                                         place.amenities)):
                                     places_list.append(place.to_dict())
                             else:
                                 places_list.append(place.to_dict())
-                except Exception:
-                    pass
+                elif obj.places:
+                    places = obj.places
+                    for place in places:
+                        if len(amenity_lists) > 0:
+                            if set(amenity_lists).issubset(set(
+                                    place.amenities)):
+                                places_list.append(place.to_dict())
+                        else:
+                            places_list.append(place.to_dict())
     except Exception:
         places = storage.all(Place)
         for place in places.values():
