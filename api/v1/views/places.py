@@ -110,7 +110,7 @@ def post_place_search():
                 raise Exception
             for value in values:
                 obj = storage.get(item_class[key], value)
-                if obj.cities:
+                if obj.__class__.__name__ == "State":
                     cities = obj.cities
                     for city in cities:
                         places = city.places
@@ -121,7 +121,7 @@ def post_place_search():
                                     places_list.append(place.to_dict())
                             else:
                                 places_list.append(place.to_dict())
-                elif obj.places:
+                elif obj.__class__.__name__ == "City":
                     places = obj.places
                     for place in places:
                         if len(amenity_lists) > 0:

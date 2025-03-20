@@ -1,13 +1,6 @@
 #!/usr/bin/python3
-me = ['1', '2', '3']
-you = ['3', '7', '2', '5', '1']
-youme = ['1', '3', '2']
+from models.state import State
 
-if set(me) <= set(you):
-    print("me is in you")
-else:
-    print("me is not in you")
-if set(me) <= set(youme):
-    print("me is in youme")
-else:
-    print("me is not in youme")
+obj = State()
+
+print(type(obj.__class__.__name__))
