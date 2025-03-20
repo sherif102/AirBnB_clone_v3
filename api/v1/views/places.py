@@ -128,7 +128,7 @@ def post_place_search():
     if amenity_lists:
         filter_places = []
         for place in places_list:
-            amenities = [amenity.id for amenity in place.amenities]
+            amenities = [amenity.id for amenity in place["amenities"]]
             if set(amenity_lists).issubset(set(amenities)):
                 filter_places.append(place.to_dict())
         return jsonify(filter_places)
