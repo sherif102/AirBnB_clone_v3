@@ -119,14 +119,21 @@ def post_place_search():
             places_list.append(place.to_dict())
 
     if "amenities" in input_data:
+        filter_places = []
         for place in places_list:
+            place_amenities = {amenity.id for amenity in place["amenities"]}
+            all_amenities_present = True
+
             for amenity in input_data["amenities"]:
                 amenit = storage.get(Amenity, amenity)
-                if amenit.__class__.__name__ == "Amenity":
-                    amenities = [amenity.id for amenity in place["amenities"]]
-                    if amenit.id not in amenities:
-                        places_list.remove(place)
-                        break
+                if not amenit or amenit.__class__.__name__ != "Amenity":
+                    continue
+                if amenit.id not in place_amenities:
+                    all_amenities_present = False
+                    break
+            if all_amenities_present:
+                filter_places.append(place)
+        return jsonify(filter_places)
 
     return jsonify(places_list)
 
