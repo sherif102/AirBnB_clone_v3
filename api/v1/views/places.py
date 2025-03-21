@@ -125,13 +125,13 @@ def post_place_search():
         for place in places.values():
             places_list.append(place.to_dict())
 
-    if amenity_lists:
-        filter_places = []
-        for place in places_list:
-            amenities = [amenity.id for amenity in place["amenities"]]
-            if set(amenity_lists).issubset(set(amenities)):
-                filter_places.append(place)
-        return jsonify(filter_places)
+    # if amenity_lists:
+    #     filter_places = []
+    #     for place in places_list:
+    #         amenities = [amenity.id for amenity in place["amenities"]]
+    #         if set(amenity_lists).issubset(set(amenities)):
+    #             filter_places.append(place)
+    #     return jsonify(filter_places)
 
     return jsonify(places_list)
 
