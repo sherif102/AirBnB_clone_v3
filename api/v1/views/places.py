@@ -118,7 +118,7 @@ def post_place_search():
         for place in places.values():
             places_list.append(place.to_dict())
 
-    if "amenities" in input_data:
+    if "amenities" in list(input_data.keys()):
         filter_places = []
         for place in places_list:
             amenity_present = True
