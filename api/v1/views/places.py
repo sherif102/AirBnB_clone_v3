@@ -87,7 +87,6 @@ def post_place_search():
     """search for places"""
     item_class = {"states": State, "cities": City}
     places_list = []
-    amenity_lists = []
 
     try:
         if not request.is_json:
@@ -95,12 +94,6 @@ def post_place_search():
         input_data = request.get_json()
     except Exception:
         return jsonify({'error': 'Not a JSON'}), 400
-
-    if "amenities" in input_data:
-        for amenity in input_data["amenities"]:
-            amenit = storage.get(Amenity, amenity)
-            if amenit.__class__.__name__ == "Amenity":
-                amenity_lists.append(amenit.id)
 
     try:
         if not input_data:
@@ -125,13 +118,15 @@ def post_place_search():
         for place in places.values():
             places_list.append(place.to_dict())
 
-    # if amenity_lists:
-    #     filter_places = []
-    #     for place in places_list:
-    #         amenities = [amenity.id for amenity in place["amenities"]]
-    #         if set(amenity_lists).issubset(set(amenities)):
-    #             filter_places.append(place)
-    #     return jsonify(filter_places)
+    if "amenities" in input_data:
+        for place in places_list:
+            for amenity in input_data["amenities"]:
+                amenit = storage.get(Amenity, amenity)
+                if amenit.__class__.__name__ == "Amenity":
+                    amenities = [amenity.id for amenity in place["amenities"]]
+                    if amenit.id not in amenities:
+                        places_list.remove(place)
+                        break
 
     return jsonify(places_list)
 
