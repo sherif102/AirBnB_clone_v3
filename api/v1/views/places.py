@@ -120,15 +120,13 @@ def post_place_search():
 
     if "amenities" in input_data:
         filter_places = []
-    
         amenities_needed = {
-            storage.get(Amenity, amenity) for amenity in input_data["amenities"]
+            storage.get(Amenity, amty) for amty in input_data["amenities"]
         }
         amenities_needed.discard(None)
 
         for place in places_list:
             place_amenities = set(place["amenities"])
-    
             if amenities_needed.issubset(place_amenities):
                 filter_places.append(place)
         return jsonify(filter_places)
