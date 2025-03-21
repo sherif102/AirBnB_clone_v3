@@ -124,9 +124,9 @@ def post_place_search():
             amenity_present = True
             for amenity in input_data["amenities"]:
                 amenit = storage.get(Amenity, amenity)
-                if amenit.__class__.__name__ == "Amenity":
-                    amenities = [amenity.id for amenity in place["amenities"]]
-                    if amenit.id not in amenities:
+                if amenit and amenit.__class__.__name__ == "Amenity":
+                    amenities = [amenity for amenity in place["amenities"]]
+                    if amenit not in amenities:
                         amenity_present = False
                         break
             if amenity_present:
