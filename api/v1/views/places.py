@@ -125,7 +125,7 @@ def post_place_search():
         for place in places.values():
             places_list.append(place.to_dict())
 
-    if len(amenity_lists) > 0:
+    if amenity_lists:
         filter_places = []
         for place in places_list:
             amenities = [amenity for amenity in place["amenities"]]
