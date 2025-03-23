@@ -120,13 +120,13 @@ def post_place_search():
 
     if "amenities" in list(input_data.keys()):
         filter_places = []
-        amenity = storage.get(Amenity, input_data["amenities"][0])
-        if amenity:
-            for place in places_list:
-                place_amenities = place["amenities"]
-                if place_amenities:
-                    filter_places.append(place)
-        return jsonify(filter_places)
+        # amenity = storage.get(Amenity, input_data["amenities"][0])
+        # if amenity:
+        #     for place in places_list:
+        #         place_amenities = place["amenities"]
+        #         if place_amenities:
+        #             filter_places.append(place)
+        return jsonify({"message": "Amenity present"}), 201
 
     return jsonify(places_list)
 
