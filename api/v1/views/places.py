@@ -118,16 +118,13 @@ def post_place_search():
         for place in places.values():
             places_list.append(place.to_dict())
 
-    if "amenities" in input_data:
+    if "amenities" in list(input_data.keys()):
         filter_places = []
-        # amenities_needed = [
-        #     storage.get(Amenity, amty) for amty in input_data["amenities"] if amty
-        # ]
         amenity = storage.get(Amenity, input_data["amenities"][0])
         if amenity:
             for place in places_list:
                 place_amenities = place["amenities"]
-                if amenity in place_amenities:
+                if place_amenities:
                     filter_places.append(place)
         return jsonify(filter_places)
 
