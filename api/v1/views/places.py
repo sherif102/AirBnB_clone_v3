@@ -127,7 +127,7 @@ def post_place_search():
                 if place_amenities:
                     if am.issubset(set(place_amenities)):
                         filter_places.append(place)
-        return jsonify(filter_places), 201
+        return jsonify(filter_places)
 
     return jsonify(places_list)
 
