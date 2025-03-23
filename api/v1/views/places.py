@@ -118,15 +118,16 @@ def post_place_search():
         for place in places.values():
             places_list.append(place.to_dict())
 
-    if "amenities" in list(input_data.keys()):
+    if "amenities" in input_data:
         filter_places = []
-        # amenity = storage.get(Amenity, input_data["amenities"][0])
-        # if amenity:
-        #     for place in places_list:
-        #         place_amenities = place["amenities"]
-        #         if place_amenities:
-        #             filter_places.append(place)
-        return jsonify({"message": "Amenity present"}), 201
+        am = {storage.get(Amenity, am) for am in input_data["amenities"] if am}
+        if am:
+            for place in places_list:
+                place_amenities = storage.get(Place, place['id']).amenities
+                if place_amenities:
+                    if am.issubset(set(place_amenities)):
+                        filter_places.append(place)
+        return jsonify(filter_places), 201
 
     return jsonify(places_list)
 
@@ -156,7 +157,7 @@ def put_place(place_id):
 @app_views.route('/all', strict_slashes=False)
 def all_objects():
     response = []
-    result = storage.all()
+    result = storage.all(Place)
     for x in result.values():
         response.append(x.to_dict())
     return jsonify(response), 200
